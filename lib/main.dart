@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_yt_v2/router.dart';
+import 'package:flutter_yt_v2/app_router.dart';
 import 'package:get_storage/get_storage.dart';
 
 void main() async{
   await GetStorage.init();
-  runApp(MyApp(router: AppRouter()));  // Создаем единственный экземпляр AppRouter
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final AppRouter router;
+  //final AppRouter router;
+  final _appRouter = AppRouter();
   
-  const MyApp({super.key, required this.router});  // Используем super.key
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: "YouTube 2.0",
+      routerConfig: _appRouter.config(),
       theme: ThemeData(
         scaffoldBackgroundColor: const Color.fromARGB(255, 31, 29, 43),
         primaryColor: const Color.fromARGB(255, 255, 118, 82),
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),  // Цвет текста подсказки
         ),
       ),
-      onGenerateRoute: router.onGenerateRoute,  // Используем метод onGenerateRoute
+      //onGenerateRoute: router.onGenerateRoute,  // Используем метод onGenerateRoute
     );
   }
 }

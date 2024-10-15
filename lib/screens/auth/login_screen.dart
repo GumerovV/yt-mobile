@@ -1,15 +1,27 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_yt_v2/app_router.dart';
 import 'package:flutter_yt_v2/constants.dart';
 import 'package:flutter_yt_v2/cubit/auth/auth_cubit.dart';
 import 'package:flutter_yt_v2/cubit/auth/auth_state.dart';
 import 'package:flutter_yt_v2/data/models/login_credentials.dart';
+import 'package:flutter_yt_v2/data/repositories/auth_repository.dart';
 
-class LoginScreen extends StatefulWidget {
+@RoutePage()
+class LoginScreen extends StatefulWidget implements AutoRouteWrapper{
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
+  
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AuthCubit(authRepository: AuthRepository()),
+      child: this,
+    );
+  }
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -90,7 +102,8 @@ SnackBar _errorSnackBar(String error) {
               listener: (context, state) {
                 // Navigate to profile screen if login succeeds
                 if (state is AuthorizedState) {
-                  Navigator.pushReplacementNamed(context, HOME_ROUTE);
+                  //Navigator.pushReplacementNamed(context, HOME_ROUTE);
+                  context.router.navigate(const HomeRoute());
                 }
                 // Show error snackbar if authentication error occurred
                 if (state is AuthErrorState) {
@@ -170,7 +183,7 @@ SnackBar _errorSnackBar(String error) {
                           ),
 
                           GestureDetector(
-                            onTap: () => Navigator.pushReplacementNamed(context, '/home'),
+                            onTap: () => context.router.navigate(const HomeRoute()),
                             child: const Center(
                               child: Text("Пропустить", style: TextStyle(color: Colors.grey, fontSize: 15),)
                             )

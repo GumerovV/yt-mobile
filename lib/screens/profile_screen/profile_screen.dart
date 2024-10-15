@@ -1,29 +1,36 @@
-  import 'package:flutter/material.dart';
-  import 'package:flutter_bloc/flutter_bloc.dart';
-  import 'package:flutter_yt_v2/constants.dart';
-  import 'package:flutter_yt_v2/cubit/auth/auth_cubit.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_yt_v2/app_router.dart';
+import 'package:flutter_yt_v2/constants.dart';
+import 'package:flutter_yt_v2/cubit/auth/auth_cubit.dart';
 import 'package:flutter_yt_v2/cubit/auth/auth_state.dart';
-  import 'package:flutter_yt_v2/screens/profile_screen/cubit/profile_screen_cubit.dart';
-  import 'package:flutter_yt_v2/screens/profile_screen/cubit/profile_screen_state.dart';
+import 'package:flutter_yt_v2/data/repositories/auth_repository.dart';
+import 'package:flutter_yt_v2/data/repositories/user_repository.dart';
+import 'package:flutter_yt_v2/screens/profile_screen/cubit/profile_screen_cubit.dart';
+import 'package:flutter_yt_v2/screens/profile_screen/cubit/profile_screen_state.dart';
 
-  class ProfileScreen extends StatelessWidget {
+@RoutePage()
+  class ProfileScreen extends StatelessWidget implements AutoRouteWrapper {
     const ProfileScreen({super.key});
 
     @override
     Widget build(BuildContext context) {
-      context.read<ProfileScreenCubit>().getProfile();  
+      context.read<ProfileScreenCubit>().getProfile();
 
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
           centerTitle: true,
           title: const Text("Профиль"),
           actions: [IconButton(onPressed: () => context.read<AuthCubit>().logout(), icon: const Icon(Icons.exit_to_app))],
         ),
         body: BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
+            print("$state");
             if (state is NoAuthState){
-              Navigator.pushReplacementNamed(context, "/");
+             context.router.navigate(const LoginRoute());
             }
           },
           child: BlocBuilder<ProfileScreenCubit, ProfileScreenState>(
@@ -75,4 +82,21 @@ import 'package:flutter_yt_v2/cubit/auth/auth_state.dart';
         ),
         );
     }
+    
+      @override
+      Widget wrappedRoute(BuildContext context) {
+        return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => AuthCubit(authRepository: AuthRepository()),
+                  child: this,
+                ),
+                BlocProvider(
+                  create: (context) => ProfileScreenCubit(userRepository: UserRepository()),
+                  child: this,
+                ),
+              ],
+              child: const ProfileScreen(), // Экран профиля использует оба кубита
+            );
+      }
   }
