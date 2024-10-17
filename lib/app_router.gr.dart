@@ -18,25 +18,43 @@ abstract class _$AppRouter extends RootStackRouter {
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const HomeScreen(),
+        child: WrappedRoute(child: const HomeScreen()),
       );
     },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const LoginScreen(),
+        child: WrappedRoute(child: const LoginScreen()),
       );
     },
     ProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ProfileScreen(),
+        child: WrappedRoute(child: const ProfileScreen()),
       );
     },
     RootRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const RootScreen(),
+        child: WrappedRoute(child: const RootScreen()),
+      );
+    },
+    TrendsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(child: const TrendsScreen()),
+      );
+    },
+    VideoDetailRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<VideoDetailRouteArgs>(
+          orElse: () => VideoDetailRouteArgs(id: pathParams.getInt('id')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: VideoDetailScreen(
+          key: args.key,
+          id: args.id,
+        ),
       );
     },
   };
@@ -96,4 +114,57 @@ class RootRoute extends PageRouteInfo<void> {
   static const String name = 'RootRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TrendsScreen]
+class TrendsRoute extends PageRouteInfo<void> {
+  const TrendsRoute({List<PageRouteInfo>? children})
+      : super(
+          TrendsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TrendsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [VideoDetailScreen]
+class VideoDetailRoute extends PageRouteInfo<VideoDetailRouteArgs> {
+  VideoDetailRoute({
+    Key? key,
+    required int id,
+    List<PageRouteInfo>? children,
+  }) : super(
+          VideoDetailRoute.name,
+          args: VideoDetailRouteArgs(
+            key: key,
+            id: id,
+          ),
+          rawPathParams: {'id': id},
+          initialChildren: children,
+        );
+
+  static const String name = 'VideoDetailRoute';
+
+  static const PageInfo<VideoDetailRouteArgs> page =
+      PageInfo<VideoDetailRouteArgs>(name);
+}
+
+class VideoDetailRouteArgs {
+  const VideoDetailRouteArgs({
+    this.key,
+    required this.id,
+  });
+
+  final Key? key;
+
+  final int id;
+
+  @override
+  String toString() {
+    return 'VideoDetailRouteArgs{key: $key, id: $id}';
+  }
 }

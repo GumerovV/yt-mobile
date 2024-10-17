@@ -37,7 +37,7 @@ class User {
       if (json["liked"] != null){
          liked = <Video>[];
          json["liked"].forEach((video){
-          liked!.add(Video.fromJson(video));
+          liked!.add(Video.fromJson(video["video"]));
          });
       }
     }

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_yt_v2/app_router.dart';
+import 'package:flutter_yt_v2/service_locator.dart';
 import 'package:get_storage/get_storage.dart';
 
 void main() async{
   await GetStorage.init();
+  setupServiceLocator();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   //final AppRouter router;
   final _appRouter = AppRouter();
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
         textTheme: const TextTheme().copyWith(
           bodySmall: const TextStyle(color: Colors.white),
           bodyMedium: const TextStyle(color: Colors.white),
-          bodyLarge: const TextStyle(color: Colors.white),
+          bodyLarge: const TextStyle(fontSize: 15, color:Colors.white, fontWeight: FontWeight.w400),
           labelLarge: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30),
         ),
         inputDecorationTheme: InputDecorationTheme(

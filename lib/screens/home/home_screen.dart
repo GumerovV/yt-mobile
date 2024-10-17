@@ -5,7 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_yt_v2/constants.dart';
 import 'package:flutter_yt_v2/cubit/videos/videos_cubit.dart';
 import 'package:flutter_yt_v2/cubit/videos/videos_state.dart';
+import 'package:flutter_yt_v2/service_locator.dart';
 import 'package:flutter_yt_v2/widgets/video/video_item.dart';
+import 'package:flutter_yt_v2/widgets/video/video_list.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
@@ -16,8 +18,8 @@ class HomeScreen extends StatefulWidget implements AutoRouteWrapper {
   
   @override
   Widget wrappedRoute(BuildContext context) {
-   return BlocProvider(
-    create: (context) => VideosCubit(),
+   return BlocProvider.value(
+    value: getIt.get<VideosCubit>(),
     child: this,
    );
   }
@@ -51,36 +53,36 @@ class _HomeScreenState extends State<HomeScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is VidoesLoadedState){
-            return  CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  snap: true,
-                  automaticallyImplyLeading: false,
-                  title: SvgPicture.asset(
-                    'assets/logo.svg',
-                    width: 55, // Ширина SVG
-                    height: 27, // Высота SVG
+            return  RefreshIndicator(
+              onRefresh: () async {
+                context.read<VideosCubit>().getVideos();
+              },
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    snap: true,
+                    automaticallyImplyLeading: false,
+                    title: SvgPicture.asset(
+                      'assets/logo.svg',
+                      width: 55, // Ширина SVG
+                      height: 27, // Высота SVG
+                    ),
+                    actions: [
+                      IconButton(icon: const Icon(Icons.search, color: Colors.white70,), onPressed: (){},),
+                    ],
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    flexibleSpace: FlexibleSpaceBar(
+                        background: Container(
+                          color: const Color.fromARGB(255, 31, 29, 43),
+                        ),
+                    ),
+                    pinned: false,
+                    floating: true, // Позволяет AppBar плавно появляться и исчезать
                   ),
-                  actions: [
-                    IconButton(icon: const Icon(Icons.search, color: Colors.white70,), onPressed: (){},),
-                  ],
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  flexibleSpace: FlexibleSpaceBar(
-                      background: Container(
-                        color: const Color.fromARGB(255, 31, 29, 43),
-                      ),
-                  ),
-                  pinned: false,
-                  floating: true, // Позволяет AppBar плавно появляться и исчезать
-                ),
-                SliverList.builder(
-                  itemCount: state.videos.length,
-                  itemBuilder: (context, index) {
-                    return VideoItem(video: state.videos[index]);
-                  },
-                ),
-              ],
+                  VideoList(videos: state.videos),
+                ],
+              ),
             );
           }
           if (state is VideosErrorState){

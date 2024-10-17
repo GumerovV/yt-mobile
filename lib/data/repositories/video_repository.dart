@@ -15,4 +15,28 @@ class VideoRepository {
       throw e;
     }
   }
+
+  static Future<List<Video>> getMostPopular() async{
+    try{
+      final response = await VideoService.getMostPopular();
+      final List<Video> videos = [];
+      response.forEach((video){
+        videos.add(Video.fromJson(video));
+      });
+      return videos;
+    }
+    catch (e){
+      throw e;
+    }
+  }
+
+  static Future<Video> getVideoById(String id) async{
+    try{
+      final video = await VideoService.getVideoById(id);
+      return Video.fromJson(video);
+    }
+    catch (e){
+      throw e;
+    }
+  }
 }

@@ -11,11 +11,43 @@ class VideoService {
       final response = await http.get(Uri.parse(VIDEO_API_URL));
       
       if (response.statusCode == 200) {
-        return jsonDecode(response.body); // Успешная регистрация
+        return jsonDecode(response.body);
       } 
       else {
           final errorResponse = jsonDecode(response.body);
           throw errorResponse['message'];
+      }
+    }
+    catch (e){
+      throw e;
+    }
+  }
+
+  static Future<dynamic> getMostPopular() async {
+    try{
+      final response = await http.get(Uri.parse("${VideoService.VIDEO_API_URL}/most-popular"));
+      if (response.statusCode == 200){
+       return jsonDecode(response.body);
+      } 
+      else {
+          final errorResponse = jsonDecode(response.body);
+          throw errorResponse['message'];
+      }
+    }
+    catch (e){
+      throw e;
+    }
+  }
+
+  static Future<dynamic> getVideoById(String id) async {
+    try{
+      final response = await http.get(Uri.parse("${VideoService.VIDEO_API_URL}/$id"));
+      if (response.statusCode == 200){
+        return jsonDecode(response.body);
+      } 
+      else {
+        final errorResponse = jsonDecode(response.body);
+        throw errorResponse['message'];
       }
     }
     catch (e){

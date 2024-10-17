@@ -7,6 +7,7 @@ import 'package:flutter_yt_v2/cubit/auth/auth_cubit.dart';
 import 'package:flutter_yt_v2/cubit/auth/auth_state.dart';
 import 'package:flutter_yt_v2/data/models/login_credentials.dart';
 import 'package:flutter_yt_v2/data/repositories/auth_repository.dart';
+import 'package:flutter_yt_v2/service_locator.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget implements AutoRouteWrapper{
@@ -18,7 +19,7 @@ class LoginScreen extends StatefulWidget implements AutoRouteWrapper{
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(authRepository: AuthRepository()),
+      create: (context) => getIt.get<AuthCubit>(),
       child: this,
     );
   }
