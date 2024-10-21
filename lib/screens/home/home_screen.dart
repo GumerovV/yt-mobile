@@ -64,8 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     automaticallyImplyLeading: false,
                     title: SvgPicture.asset(
                       'assets/logo.svg',
-                      width: 55, // Ширина SVG
-                      height: 27, // Высота SVG
+                      width: 55,
+                      height: 27,
                     ),
                     actions: [
                       IconButton(icon: const Icon(Icons.search, color: Colors.white70,), onPressed: (){},),
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                     ),
                     pinned: false,
-                    floating: true, // Позволяет AppBar плавно появляться и исчезать
+                    floating: true,
                   ),
                   VideoList(videos: state.videos),
                 ],
@@ -86,7 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
           if (state is VideosErrorState){
-            return Center(child: Text("Somthing went wrong...\n${state.err.toString()}"),);
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<VideosCubit>().getVideos();
+              }, child: Center(child: Text("Somthing went wrong...\n${state.err.toString()}"),));
           }
           return const SizedBox();
         },

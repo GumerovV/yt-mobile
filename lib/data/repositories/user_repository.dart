@@ -14,4 +14,14 @@ class UserRepository {
       throw e;
     }
   }
+
+  Future<bool> subscribeToUser(userId) async {
+    try{
+      bool isSubscribed = await UserService.subscribeToUser(userId, _storage);
+      return isSubscribed;
+    }
+    catch (e){
+      throw e;
+    }
+  }
 }

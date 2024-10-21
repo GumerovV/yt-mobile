@@ -39,4 +39,13 @@ class VideoRepository {
       throw e;
     }
   }
+
+  static Future<void> updateLikes(String videoId) async {
+    try{
+      VideoService.updateLikes(videoId);
+    }
+    catch (e){
+      throw e;
+    }
+  }
 }
