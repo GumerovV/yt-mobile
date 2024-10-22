@@ -6,6 +6,7 @@ import 'package:flutter_yt_v2/screens/video_detail/cubit/video_detail_screen_cub
 import 'package:flutter_yt_v2/screens/video_detail/cubit/video_detail_screen_state.dart';
 import 'package:flutter_yt_v2/utils/format_number.dart';
 import 'package:flutter_yt_v2/widgets/channel_info.dart';
+import 'package:flutter_yt_v2/widgets/video/comments/video_comments.dart';
 import 'package:flutter_yt_v2/widgets/video/video_player.dart';
 
 @RoutePage()
@@ -23,6 +24,7 @@ class VideoDetailScreen extends StatelessWidget implements AutoRouteWrapper{
       appBar: AppBar(
         titleTextStyle: const TextStyle(color: Colors.white),
         backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
       ),
       body: BlocBuilder<VideoDetailScreenCubit, VideoDetailScreenState>(
         builder: (context, state) {
@@ -60,6 +62,7 @@ class VideoDetailScreen extends StatelessWidget implements AutoRouteWrapper{
                   ),
                 ),
                 ChannelInfo(user: state.video.user!, videoId: state.video.id!,),
+                Expanded(child: VideoComments(comments: state.video.comments ?? [])),
               ],
             );
           }

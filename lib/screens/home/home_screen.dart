@@ -89,7 +89,11 @@ class _HomeScreenState extends State<HomeScreen> {
             return RefreshIndicator(
               onRefresh: () async {
                 context.read<VideosCubit>().getVideos();
-              }, child: Center(child: Text("Somthing went wrong...\n${state.err.toString()}"),));
+              }, child: ListView(children: [
+                  Center(child: Text("Somthing went wrong...\n${state.err.toString()}"),),
+                ]
+              )
+            );
           }
           return const SizedBox();
         },

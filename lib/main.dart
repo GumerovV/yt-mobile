@@ -45,6 +45,12 @@ class MyApp extends StatelessWidget {
           labelStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal), // Цвет текста лейбла
           hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),  // Цвет текста подсказки
         ),
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+          surfaceTintColor: Colors.transparent
+        )
       ),
       //onGenerateRoute: router.onGenerateRoute,  // Используем метод onGenerateRoute
     );

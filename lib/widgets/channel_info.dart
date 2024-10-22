@@ -40,8 +40,13 @@ class ChannelInfo extends StatelessWidget {
                 ),
               ],
             ),
-            LikeButtonProvider(videoId: videoId),
-            SubscribeButtonProvider(userId: user.id!.toInt())
+            Row(
+              children: [
+                LikeButtonProvider(videoId: videoId),
+                const SizedBox(width: 5,),
+                SubscribeButtonProvider(userId: user.id!.toInt()),
+              ],
+            ),
           ],
         ),
       ),
