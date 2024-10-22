@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_yt_v2/app_router.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_yt_v2/constants.dart';
 import 'package:flutter_yt_v2/data/models/user.dart';
 
@@ -11,31 +13,36 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.network(
-              "$BASE_URL/${user.avatarPath}",
-              width: width,
-              height: height,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-              errorBuilder: (context, error, stackTrace) {
-                return const Center(
-                  child: Icon(
-                    Icons.person_pin,
-                    size: 42,
-                    color: Colors.white30,
-                  ),
-                );
-              },
-            ),
-          );
+    return InkWell(
+      onTap: () {
+        context.router.push(ChannelRoute(userId: user.id!));
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(50),
+        child: Image.network(
+          "$BASE_URL/${user.avatarPath}",
+          width: width,
+          height: height,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) {
+              return child;
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+          errorBuilder: (context, error, stackTrace) {
+            return const Center(
+              child: Icon(
+                Icons.person_pin,
+                size: 42,
+                color: Colors.white30,
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

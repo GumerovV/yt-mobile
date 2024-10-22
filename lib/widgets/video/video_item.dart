@@ -9,7 +9,8 @@ import 'package:flutter_yt_v2/utils/format_number.dart';
 class VideoItem extends StatelessWidget {
   final Video video;
   final bool smallVideoItem;
-  const VideoItem({super.key, required this.video, this.smallVideoItem = false});
+  final bool withoutUser;
+  const VideoItem({super.key, required this.video, this.smallVideoItem = false, this.withoutUser = false});
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,7 @@ class VideoItem extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  !smallVideoItem ? ClipRRect(
+                  !smallVideoItem && !withoutUser ? ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: Image.network(
                       "$BASE_URL/${video.user!.avatarPath}",
@@ -129,7 +130,7 @@ class VideoItem extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        !smallVideoItem || video.user?.name?.isNotEmpty == true || video.user?.email?.isNotEmpty == true ? Text(
+                        !smallVideoItem && !withoutUser || video.user?.name?.isNotEmpty == true || video.user?.email?.isNotEmpty == true ? Text(
                           "${video.user?.name?.isNotEmpty == true ? video.user!.name : video.user?.email} · ${formatNumber(video.views ?? 0)} views",
                           maxLines: 1,
                           style: const TextStyle(fontWeight: FontWeight.normal, color: Colors.white38, fontSize: 12),

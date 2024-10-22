@@ -15,6 +15,19 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    ChannelRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ChannelRouteArgs>(
+          orElse: () => ChannelRouteArgs(userId: pathParams.getInt('userId')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WrappedRoute(
+            child: ChannelScreen(
+          key: args.key,
+          userId: args.userId,
+        )),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -51,13 +64,53 @@ abstract class _$AppRouter extends RootStackRouter {
           orElse: () => VideoDetailRouteArgs(id: pathParams.getInt('id')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: VideoDetailScreen(
+        child: WrappedRoute(
+            child: VideoDetailScreen(
           key: args.key,
           id: args.id,
-        ),
+        )),
       );
     },
   };
+}
+
+/// generated route for
+/// [ChannelScreen]
+class ChannelRoute extends PageRouteInfo<ChannelRouteArgs> {
+  ChannelRoute({
+    Key? key,
+    required int userId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChannelRoute.name,
+          args: ChannelRouteArgs(
+            key: key,
+            userId: userId,
+          ),
+          rawPathParams: {'userId': userId},
+          initialChildren: children,
+        );
+
+  static const String name = 'ChannelRoute';
+
+  static const PageInfo<ChannelRouteArgs> page =
+      PageInfo<ChannelRouteArgs>(name);
+}
+
+class ChannelRouteArgs {
+  const ChannelRouteArgs({
+    this.key,
+    required this.userId,
+  });
+
+  final Key? key;
+
+  final int userId;
+
+  @override
+  String toString() {
+    return 'ChannelRouteArgs{key: $key, userId: $userId}';
+  }
 }
 
 /// generated route for

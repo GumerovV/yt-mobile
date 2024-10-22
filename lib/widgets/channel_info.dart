@@ -24,21 +24,29 @@ class ChannelInfo extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                UserAvatar(user: user),
-                const SizedBox(width: 10,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                  Text(
-                    user.name!.isNotEmpty == true ? user.name! : user.email!,
-                    style: theme.textTheme.bodySmall!.copyWith(fontSize: 17),
+            Expanded(
+              child: Row(
+                children: [
+                  UserAvatar(user: user),
+                  const SizedBox(width: 10,),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          user.name!.isNotEmpty == true ? user.name! : user.email!,
+                          style: theme.textTheme.bodySmall!.copyWith(fontSize: 17),
+                          overflow: TextOverflow.ellipsis, // предотвращение переполнения текста
+                        ),
+                        Text(
+                          "${formatNumber(user.subscribersCount ?? 0)} subscribers",
+                          style: const TextStyle(color: Colors.white30),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text("${formatNumber(user.subscribersCount ?? 0)} subscribers", style: const TextStyle(color: Colors.white30)),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
             Row(
               children: [

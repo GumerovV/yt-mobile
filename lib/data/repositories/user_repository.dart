@@ -24,4 +24,14 @@ class UserRepository {
       throw e;
     }
   }
+
+  static Future<User> getUserById(String userId) async {
+    try{
+      final user = await UserService.getUserById(userId);
+      return User.fromJson(user);
+    }
+    catch (e){
+      throw e;
+    }
+  }
 }

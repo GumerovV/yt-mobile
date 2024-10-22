@@ -4,8 +4,10 @@ import 'package:flutter_yt_v2/widgets/video/video_item.dart';
 
 class VideoList extends StatelessWidget {
   final List<Video> videos;
+  final bool smallVideoItem;
+  final bool withoutUser;
 
-  const VideoList({super.key, required this.videos});
+  const VideoList({super.key, required this.videos, this.smallVideoItem = false, this.withoutUser = false});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class VideoList extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: VideoItem(video: videos[index]),
+                      child: VideoItem(video: videos[index], smallVideoItem: smallVideoItem, withoutUser: withoutUser,),
                     );
                   },
                 );
