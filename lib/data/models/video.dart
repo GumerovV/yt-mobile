@@ -14,7 +14,7 @@ class Video {
     String? videoPath;
     String? thumbnailPath;
     User? user;
-    List<Comment?>? comments;
+    List<Comment>? comments;
 
     Video({this.id, this.createdAt, this.updatedAt, this.name, this.isPublic, this.views, this.likesCount, this.duration, this.description, this.videoPath, this.thumbnailPath, this.user, this.comments}); 
 

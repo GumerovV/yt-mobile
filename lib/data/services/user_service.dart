@@ -33,4 +33,43 @@ class UserService {
       throw e;
     }
   }
+
+  static Future<dynamic> getUserById(String userId) async {
+    try{
+      final response = await http.get(Uri.parse("$BASE_API_URL/user/$userId"));
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } 
+      else {
+          final errorResponse = jsonDecode(response.body);
+          throw errorResponse['message'];
+      }
+    }
+    catch (e){
+      throw e;
+    }
+  }
+
+  static Future<bool> subscribeToUser(int userId, GetStorage storage) async {
+    try{
+      final String? accessToken = storage.read('accessToken');
+      final response = await http.patch(Uri.parse("$BASE_API_URL/user/subscribe/$userId"), headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $accessToken',
+        },);
+        print(response.body);
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      else {
+        final errorResponse = jsonDecode(response.body);
+        throw errorResponse['message'];
+      }
+    }
+    catch (e){
+      throw e;
+    }
+  }
 }

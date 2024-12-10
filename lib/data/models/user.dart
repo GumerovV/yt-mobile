@@ -1,6 +1,7 @@
 import 'package:flutter_yt_v2/data/models/video.dart';
 
 class User {
+  int? id;
   String? email;
   String? name;
   bool? isVerified;
@@ -13,9 +14,10 @@ class User {
 
   User(
   this.name, this.isVerified, this.videos, this.subscriptions, this.liked, 
-  {required this.email, required this.avatarPath, required this.description, required this.subscribersCount});
+  {required this.id, required this.email, required this.avatarPath, required this.description, required this.subscribersCount});
 
   User.fromJson(Map<String, dynamic> json) {
+      id = json['id'];
       email = json['email'] as String;
       name = json['name'] as String;
       isVerified = json['isVerified'] as bool;
@@ -37,7 +39,7 @@ class User {
       if (json["liked"] != null){
          liked = <Video>[];
          json["liked"].forEach((video){
-          liked!.add(Video.fromJson(video));
+          liked!.add(Video.fromJson(video["video"]));
          });
       }
     }
